@@ -1,0 +1,1 @@
+{"partitions": [{"topic": "source_frames_queue", "partition": 0, "offset": 1000}], "version":1 }

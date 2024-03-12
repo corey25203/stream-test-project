@@ -1,0 +1,69 @@
+server:
+  port: 8080
+#none
+spring:
+  main:
+    web-application-type: reactive
+  #rsocket:
+  #  server:
+  #    port: 6565
+  #    transport: websocket
+  #    mapping-path: /rsocket
+
+  docker:
+    compose:
+      enabled: true
+
+ # servlet:
+ #   multipart:
+ #     enabled: true
+ #     file-size-threshold: 2KB
+ #     max-file-size: 250MB
+ #     max-request-size: 215MB
+
+  #https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html
+  kafka:
+    bootstrap-servers: kafka:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      batch-size: 30782579
+      properties:
+        max.message.bytes: 10485880
+        max.request.size: 10485880
+        max.partition.fetch.bytes=10485880:
+
+    consumer:
+      group-id: test_group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        max.partition.fetch.bytes: 10971520
+        fetch.message.max.bytes: 20971520
+
+        spring:
+          json:
+            use:
+              type:
+                headers: false
+            value:
+              default:
+                type: com.ddcr.example.stream.dao.model.SourceFrame
+    #
+
+#/app/uploads
+file:
+  upload-dir: ./uploads
+
+#CONSUMER_TOPIC: [source_frames_queue | shape_frames_queue | detections_frames_queue]
+PRODUCER_TOPIC: source_frames_queue
+CONSUMER_TOPIC:   detections_frames_queue
+
+logging:
+#  level:
+#    web: trace
+#    org.springframework: trace
+#    io.netty: trace
+
+
